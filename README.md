@@ -69,6 +69,5 @@ This React Native library will allow you to schedule and show alarms.
         }
     }
     ```
-    
- * `react-native link`:
+ 
 
