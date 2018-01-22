@@ -1,6 +1,6 @@
 This React Native library will allow you to schedule and show alarms. 
 
-Features:
+## Features
 * Schedules Alarms using AlarmManager
 * Alarm reciever that will launch application upon alarm even if the application is closed. You will need to write the code to handle what your application does upon launch. The code for this feature was modified from [Christoph Michel's App Launcher](https://github.com/MrToph/react-native-app-launcher)
 * Reschedules alarms after phone boots back up
@@ -69,4 +69,6 @@ Features:
         }
     }
     ```
+    
+ * `react-native link`:
 
