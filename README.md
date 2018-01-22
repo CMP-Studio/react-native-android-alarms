@@ -57,7 +57,7 @@ This React Native library will allow you to schedule and show alarms.
     ```
 * Add the following to `android/app/src/main/java/**/MainApplication.java`:
     ```java
-    import com.dawnchorus.alarms.*;  // add this for react-native-android-alarms
+    import com.dawnchorus.alarms.AlarmPackage;  // add this for react-native-android-alarms
 
     public class MainApplication extends Application implements ReactApplication {
 
