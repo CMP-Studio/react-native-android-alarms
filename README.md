@@ -163,8 +163,9 @@ NOTE: In Android 8.0 and above, clicking the alarm icon in the Android notificat
  
  ### Handling Missed Alarms
  
+ If the user missed an alarm becuase their phone was off, when they turn their phone on, this module will present them with a notification telling them that they missed an alarm.
  Missed alarms is delivered as a String. For example, if you missed alarms with ids 3, 5, and 7 <br>
  ```missedAlarms = "3,5,7,"```
  If there are no missed alarms, missedAlarms is undefined.
- 
+  
 
