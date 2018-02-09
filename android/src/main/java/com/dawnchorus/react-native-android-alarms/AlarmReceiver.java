@@ -17,9 +17,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         launchIntent.putExtra("alarmID", alarmID);
 
         context.startActivity(launchIntent);
-        Log.i("ReactNativeAppLauncher", "AlarmReceiver: Launching: " + packageName);
-    }
+        Log.i("ReactNativeAppLauncher", "AlarmReceiver: Launching: " + packageName + " " + alarmID);
+    }        
 }
