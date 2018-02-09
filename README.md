@@ -157,15 +157,13 @@ If you extended your ReactActivityDelegate as shown above, you can grab the init
  
  ### Receiving An Alarm
  
-If the app was launched by an alarm, the alarmID will hold the id of the alarm that went off. If the app was not launched from an alarm, alarmID is undefined.
+If the app was launched by an alarm, the alarmID will hold the id of the alarm that went off. If the app was not launched from an alarm, ```alarmID = undefined```.
 
 NOTE: In Android 8.0 and above, clicking the alarm icon in the Android notification drawer will launch the app and include the alarmID as an initial prop. To avoid this setting off the alarm, double check that it is the alarm time before sounding your alarm.
  
  ### Handling Missed Alarms
  
  If the user missed an alarm becuase their phone was off, when they turn their phone on, this module will present them with a notification telling them that they missed an alarm.
- Missed alarms is delivered as a String. For example, if you missed alarms with ids 3, 5, and 7 <br>
- ```missedAlarms = "3,5,7,"```
- If there are no missed alarms, missedAlarms is undefined.
+ Missed alarms is delivered as a String. For example, if you missed alarms with ids 3, 5, and 7 ```missedAlarms = "3,5,7,"```. If there are no missed alarms, ```missedAlarms = undefined```.
   
 
