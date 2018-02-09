@@ -1,10 +1,10 @@
-This React Native library will allow you to schedule and show alarms. 
+This React Native library will allow you to schedule and show alarms on Android (tested on >= API 21). To see a working example of this module, see [Dawn Chorus](https://github.com/CMP-Studio/DawnChorus). The code for this module was modified from [Christoph Michel's App Launcher](https://github.com/MrToph/react-native-app-launcher).
 
 ## Features
 * Schedules Alarms using AlarmManager
-* Alarm reciever that will launch application upon alarm even if the application is closed. You will need to write the code to handle what your application does upon launch. The code for this feature was modified from [Christoph Michel's App Launcher](https://github.com/MrToph/react-native-app-launcher)
+* Alarm reciever that will launch application at alarm time, even if the application is closed
 * Reschedules alarms after phone boots back up
-
+* Notifies users of alarms they may have missed when their phone was off
 
 ## Installation
 * Run `npm install --save git+https://github.com/CMP-Studio/react-native-android-alarms.git`
@@ -87,5 +87,13 @@ This React Native library will allow you to schedule and show alarms.
     }
     ```
     
+ ## Usage
+ 
+ # Receiving An Alarm
+ 
+In Android 8.0 and above, clicking the alarm icon in the notification manager will deliver the intent as if it is an alarm. To avoid this, double check that it is the alarm time before sounding your alarm. Otherwise, handle it how you'd like.
+ 
+ # Handling Missed Alarms
+ 
  
 
