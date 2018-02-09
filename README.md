@@ -71,10 +71,10 @@ This React Native library will allow you to schedule and show alarms on Android 
     ```
     
     
-    * In `MainActivity.java`:
+* In `MainActivity.java`, 1) Add flags to Window that allow it to open over lockscreen and 2) Extend ReactActivityDelegate to pass data from the native module to your react native code as initial props
     
     ```
-     @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // add
@@ -85,15 +85,86 @@ This React Native library will allow you to schedule and show alarms on Android 
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
     }
+    
+    public static class AlarmActivityDelegate extends ReactActivityDelegate {
+        private static final String ALARM_ID = "alarmID";
+        private static final String MISSED_ALARMS = "missedAlarms";
+        private Bundle mInitialProps = null;
+        private final @Nullable Activity mActivity;
+
+        public AlarmActivityDelegate(Activity activity, String mainComponentName) {
+            super(activity, mainComponentName);
+            this.mActivity = activity;
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            mInitialProps = new Bundle();
+            // bundle is where we put our alarmID with launchIntent.putExtra
+            Bundle bundle = mActivity.getIntent().getExtras();
+            if (bundle != null && bundle.containsKey(ALARM_ID)) {
+                // put any initialProps here
+                mInitialProps.putString(ALARM_ID, bundle.getString(ALARM_ID));
+            }
+            if (bundle != null && bundle.containsKey(MISSED_ALARMS)) {
+                // put any initialProps here
+                mInitialProps.putString(MISSED_ALARMS, bundle.getString(MISSED_ALARMS));
+            }
+            super.onCreate(savedInstanceState);
+        }
+
+        @Override
+        protected Bundle getLaunchOptions() {
+            return mInitialProps;
+        }
+    };
+
+    @Override
+    protected ReactActivityDelegate createReactActivityDelegate() {
+        return new AlarmActivityDelegate(this, getMainComponentName());
+    }
     ```
     
  ## Usage
  
+ ### Scheduling Alarms
+ ```
+ import AndroidAlarms from 'react-native-android-alarms';
+ import moment from 'moment';
+ 
+ alarmTime = moment(); // Edit this moment object to your correct time...
+ 
+ // Set the alarm and return the time 
+ AndroidAlarms.setAlarm(alarmID, alarmTime.valueOf(), false);
+ ```
+ 
+ ### Clearing Alarms
+ ```
+ AndroidAlarms.clearAlarm(alarmID);
+ ```
+
+ ### Reading data in React Native app
+ 
+If you extended your ReactActivityDelegate as shown above, you can grab the initial data from this module by adding to your main app component
+ 
+ ```
+ static propTypes = {
+    alarmID: PropTypes.string,
+    missedAlarms: PropTypes.string,
+  }
+ ```
+ And access those props elsewhere in the component with ```this.props.alarmID``` and ```this.props.missedAlarms```
+ 
  ### Receiving An Alarm
  
-In Android 8.0 and above, clicking the alarm icon in the notification manager will deliver the intent as if it is an alarm. To avoid this, double check that it is the alarm time before sounding your alarm. Otherwise, handle it how you'd like.
+If the app was launched by an alarm, the alarmID will hold the id of the alarm that went off. If the app was not launched from an alarm, alarmID is undefined.
+
+NOTE: In Android 8.0 and above, clicking the alarm icon in the Android notification drawer will launch the app and include the alarmID as an initial prop. To avoid this setting off the alarm, double check that it is the alarm time before sounding your alarm.
  
  ### Handling Missed Alarms
  
+ Missed alarms is delivered as a String. For example, if you missed alarms with ids 3, 5, and 7 <br>
+ ```missedAlarms = "3,5,7,"```
+ If there are no missed alarms, missedAlarms is undefined.
  
 
